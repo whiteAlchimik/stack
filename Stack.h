@@ -48,7 +48,7 @@ public:
 */
 
 template < typename Type,
-	typename UnqualifiedType = std::remove_const_t<Type >>
+	typename UnqualifiedType = typename std::remove_const< Type >::type >
 class Stack_iterator;
 
 template < typename Type >
@@ -316,12 +316,12 @@ public:
 		return *this;
 	}
 
-	reference operator*()
+	Type & operator*()
 	{
 		return this->_ptrArg->_data;
 	}
 
-	pointer operator->()
+	Type * operator->()
 	{
 		return (&this->_ptrArg->_data);
 	}
