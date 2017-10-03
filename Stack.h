@@ -10,9 +10,9 @@
 #include <initializer_list>
 
 /*
- *************************************************************************************************************************************************
- * class Node
- */
+*************************************************************************************************************************************************
+* class Node
+*/
 
 template < typename Type >
 class Node
@@ -37,18 +37,18 @@ public:
 };
 
 /*
- *************************************************************************************************************************************************
- */
+*************************************************************************************************************************************************
+*/
 
 
 
 /*
- *************************************************************************************************************************************************
- * class Stack
- */
+*************************************************************************************************************************************************
+* class Stack
+*/
 
 template < typename Type,
-		   typename UnqualifiedType = std::remove_const_t<Type >>
+	typename UnqualifiedType = std::remove_const_t<Type >>
 class Stack_iterator;
 
 template < typename Type >
@@ -63,10 +63,10 @@ public:
 		_ptrHead(nullptr),
 		_sizeStack(0)
 	{};
-	
+
 	/*
-	 * Constructor with initializer_list.
-	 */
+	* Constructor with initializer_list.
+	*/
 	Stack(const std::initializer_list<Type> &initList) :
 		Stack()
 	{
@@ -77,8 +77,8 @@ public:
 	};
 
 	/*
-	 * Copy constructor.
-	 */
+	* Copy constructor.
+	*/
 	Stack(const Stack<Type> &obj) :
 		Stack()
 	{
@@ -86,8 +86,8 @@ public:
 	}
 
 	/*
-	 * Move constructor.
-	 */
+	* Move constructor.
+	*/
 	Stack(Stack &&obj) :
 		Stack()
 	{
@@ -95,8 +95,8 @@ public:
 	}
 
 	/*
-	 * Copy assignment operator.
-	 */
+	* Copy assignment operator.
+	*/
 	Stack<Type> & operator=(const Stack<Type> &obj)
 	{
 		if (this != &obj)
@@ -108,8 +108,8 @@ public:
 	}
 
 	/*
-	 * Move assignment operator.
-	 */
+	* Move assignment operator.
+	*/
 	Stack<Type> & operator=(Stack &&obj)
 	{
 		if (this != &obj)
@@ -126,9 +126,9 @@ public:
 	}
 
 	/*
-	 * Inserts a new element at the top of the stack, above its current top element. 
-	 * The content of this new element is initialized to a copy of data.
-	 */
+	* Inserts a new element at the top of the stack, above its current top element.
+	* The content of this new element is initialized to a copy of data.
+	*/
 	void push(const Type &data)
 	{
 		Node<Type> *ptrTemp = new Node<Type>(data, this->_ptrHead);
@@ -137,8 +137,8 @@ public:
 	}
 
 	/*
-	 * Removes the element on top of the stack, reducing its size by one.
-	 */
+	* Removes the element on top of the stack, reducing its size by one.
+	*/
 	void pop()
 	{
 		if (this->_ptrHead == nullptr)
@@ -152,8 +152,8 @@ public:
 	}
 
 	/*
-	 * Returns a reference to the top element in the stack. 
-	 */
+	* Returns a reference to the top element in the stack.
+	*/
 	Type & top()
 	{
 		if (this->_ptrHead == nullptr)
@@ -163,26 +163,26 @@ public:
 	}
 
 	/*
-	 * Returns the number of elements in the stack.
-	 */
+	* Returns the number of elements in the stack.
+	*/
 	size_t size() const
 	{
 		return this->_sizeStack;
 	}
 
 	/*
-	 * Checks if the stack has no elements.
-	 * Return value : true if the stack is empty,
-	 *				  false otherwise
-	 */
+	* Checks if the stack has no elements.
+	* Return value : true if the stack is empty,
+	*				  false otherwise
+	*/
 	bool empty() const
 	{
 		return this->_sizeStack == 0 ? true : false;
 	}
 
 	/*
-	 * Clears the stack.
-	 */
+	* Clears the stack.
+	*/
 	void clear()
 	{
 		while (this->_ptrHead)
@@ -201,12 +201,12 @@ public:
 		return iterator();
 	}
 
-	const_iterator cbegin()
+	const_iterator cbegin() const
 	{
 		return const_iterator(this->_ptrHead);
 	}
-
-	const_iterator  cend()
+	
+	const_iterator  cend() const
 	{
 		return const_iterator();
 	}
@@ -246,51 +246,54 @@ private:
 };
 
 /*
- *************************************************************************************************************************************************
- */
+*************************************************************************************************************************************************
+*/
 
 
 
 /*
- *************************************************************************************************************************************************
- * class Stack_iterator
- */
+*************************************************************************************************************************************************
+* class Stack_iterator
+*/
 
-template < typename Type, 
-		   typename UnqualifiedType>
+template < typename Type,
+	typename UnqualifiedType>
 class Stack_iterator : public std::iterator<std::forward_iterator_tag,
-											UnqualifiedType,
-											std::ptrdiff_t,
-											Type *,
-											Type &>
+	UnqualifiedType,
+	std::ptrdiff_t,
+	Type *,
+	Type &>
 {
 
-	template < typename Type >
-	friend class Stack;
+	friend class Stack< Type >;
 
-	public:
+public:
 	explicit Stack_iterator() :
-	_ptrArg(nullptr)
+		_ptrArg(nullptr)
+	{}
+
+	explicit Stack_iterator(Node< UnqualifiedType > *ptrArg) :
+		_ptrArg(ptrArg)
 	{}
 
 	/*
-	 * Copy constructor.
-	 */
+	* Copy constructor.
+	*/
 	Stack_iterator(const Stack_iterator< Type > &rhs) :
 		_ptrArg(rhs._ptrArg)
 	{}
 
 	/*
-	 * Move constructor.
-	 */
+	* Move constructor.
+	*/
 	Stack_iterator(Stack_iterator< Type > &&rhs)
 	{
 		*this = std::move(rhs);
 	}
 
 	/*
-	 * Copy assignment operator.
-	 */
+	* Copy assignment operator.
+	*/
 	Stack_iterator< Type > & operator=(const Stack_iterator< Type > &rhs)
 	{
 		if (this != &rhs)
@@ -301,8 +304,8 @@ class Stack_iterator : public std::iterator<std::forward_iterator_tag,
 	}
 
 	/*
-	 * Move assignment operator.
-	 */
+	* Move assignment operator.
+	*/
 	Stack_iterator< Type > & operator=(Stack_iterator< Type > &&rhs)
 	{
 		if (this != &rhs)
@@ -347,11 +350,11 @@ class Stack_iterator : public std::iterator<std::forward_iterator_tag,
 	}
 
 	/*
-	 * one way conversion: iterator -> const_iterator
-	 */
+	* one way conversion: iterator -> const_iterator
+	*/
 	operator Stack_iterator< const Type >() const
 	{
-		return Stack_iterator< const Type >(this->_ptrArg);
+		return Stack_iterator<const Type>(this->_ptrArg);
 	}
 
 	~Stack_iterator()
@@ -359,16 +362,12 @@ class Stack_iterator : public std::iterator<std::forward_iterator_tag,
 		this->_ptrArg = nullptr;
 	}
 
-	private:
-		Node< UnqualifiedType > *_ptrArg;
-
-		explicit Stack_iterator(Node< UnqualifiedType > *ptrArg) :
-	_ptrArg(ptrArg)
-	{}
+private:
+	Node< UnqualifiedType > *_ptrArg;
 };
 
 /*
- *************************************************************************************************************************************************
- */
+*************************************************************************************************************************************************
+*/
 
 #endif
